@@ -1,7 +1,7 @@
+import { Button } from "@/components/ui/button";
 import Editor from "./memo/Editor";
 
 const ACTIVITY = {
-  name: "ㅇㅅㅇ",
   date: timeFormatting(new Date()),
   memo: "ㅇㅁㅇ 여기다 메모쓰기",
 };
@@ -9,6 +9,11 @@ const ACTIVITY = {
 export default function Home() {
   return (
     <main className="flex h-full  flex-col items-center justify-between p-4">
+      <div className="flex justify-end w-full">
+        <Button variant="outline">
+          <a href="/signin">로그인</a>
+        </Button>
+      </div>
       <Editor activity={ACTIVITY} />
     </main>
   );

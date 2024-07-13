@@ -10,7 +10,7 @@ interface Activity {
   memo: string;
 }
 
-export default function Editor({ activity }: { activity: any }) {
+export default function Editor({ activity }: { activity: Activity }) {
   const onKeyUpTextArea = useDebounce(
     (e: React.KeyboardEvent<HTMLTextAreaElement>) => {
       const target = e.target as HTMLTextAreaElement;

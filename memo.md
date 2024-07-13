@@ -18,3 +18,13 @@
 - auth -> next-auth supabase auth는 ㄴㄴ, oauth 화면 커스텀 귀찮아짐)
 
 - ORM -> drizzle
+
+## Auth.js
+
+v5 는 베타긴 한데 암튼 잘돌아가는 듯, 심플해짐, 앱 라우터 지원 굳
+
+- 공식문서
+  https://authjs.dev/getting-started/installation
+
+- 한국어
+  https://www.heropy.dev/p/MI1Khc

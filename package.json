@@ -7,7 +7,7 @@
     "build": "next build",
     "start": "next start",
     "lint": "next lint",
-    "mg": "drizzle-kit migrate"
+    "mg": "drizzle-kit generate && drizzle-kit migrate"
   },
   "dependencies": {
     "@auth/drizzle-adapter": "^1.4.1",

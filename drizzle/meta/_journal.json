@@ -8,6 +8,13 @@
       "when": 1723280019687,
       "tag": "20240810085339_adorable_lizard",
       "breakpoints": true
+    },
+    {
+      "idx": 1,
+      "version": "7",
+      "when": 1723282375770,
+      "tag": "20240810093255_fixed_stingray",
+      "breakpoints": true
     }
   ]
 }

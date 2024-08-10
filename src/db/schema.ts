@@ -8,6 +8,22 @@ import {
 } from "drizzle-orm/pg-core";
 import type { AdapterAccountType } from "next-auth/adapters";
 
+export const memos = pgTable("memo", {
+  id: text("id")
+    .primaryKey()
+    .$defaultFn(() => crypto.randomUUID()),
+  userId: text("userId")
+    .notNull()
+    .references(() => users.id, { onDelete: "cascade" }),
+  title: text("title"),
+  content: text("content"),
+  created_at: timestamp("created_at", { mode: "date" }).notNull().defaultNow(),
+  updated_at: timestamp("updated_at", { mode: "date" }).notNull().defaultNow(),
+});
+
+export type InsertMemo = typeof memos.$inferInsert;
+export type SelectMemo = typeof memos.$inferSelect;
+
 export const users = pgTable("user", {
   id: text("id")
     .primaryKey()

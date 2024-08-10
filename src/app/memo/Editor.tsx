@@ -1,24 +1,17 @@
 "use client";
 
-// import { Activity } from "~/app/activities/model";
 import { Textarea } from "@/components/ui/textarea";
-// import { updateActivityAction } from "~/app/activities/action";
 import { useDebounce } from "@/hooks/useDebounce";
+import { upsertMemo } from "./queries";
+import { SelectMemo } from "@/db/schema";
 
-interface Activity {
-  date: string;
-  memo: string;
-}
-
-export default function Editor({ activity }: { activity: Activity }) {
+export default function Editor({ memo }: { memo: SelectMemo }) {
   const onKeyUpTextArea = useDebounce(
-    (e: React.KeyboardEvent<HTMLTextAreaElement>) => {
+    async (e: React.KeyboardEvent<HTMLTextAreaElement>) => {
       const target = e.target as HTMLTextAreaElement;
-      const memo = target.value;
+      const content = target.value;
 
-      //   updateActivityAction({
-      //     activity: { ...activity, memo },
-      //   });
+      await upsertMemo({ id: memo.id, content });
     },
     1000,
   );
@@ -26,11 +19,11 @@ export default function Editor({ activity }: { activity: Activity }) {
   return (
     <section className="w-full">
       <div className="pb-4">
-        <h1 className="font-bold">{activity.date}</h1>
+        <h1 className="font-bold">{timeFormatting(memo.created_at)}</h1>
       </div>
       <div className="pb-4">
         <Textarea
-          defaultValue={activity.memo}
+          defaultValue={memo.content ?? ""}
           onKeyUp={onKeyUpTextArea}
           autoFocus
           className="h-[90vh] border-none shadow-none  resize-none focus-visible:ring-transparent"
@@ -38,4 +31,24 @@ export default function Editor({ activity }: { activity: Activity }) {
       </div>
     </section>
   );
+}
+
+function timeFormatting(date: Date) {
+  const options: Intl.DateTimeFormatOptions = {
+    year: "numeric",
+    month: "2-digit",
+    day: "2-digit",
+    timeZone: "Asia/Seoul",
+  };
+
+  const formatter = new Intl.DateTimeFormat("ko-KR", options);
+  const [year, month, day] = formatter
+    .formatToParts(date)
+    .filter((part) => part.type !== "literal")
+    .map((part) => part.value);
+
+  // 'YYYY-MM-DD'
+  const formattedDate = `${year}-${month}-${day}`;
+
+  return formattedDate;
 }

@@ -20,22 +20,20 @@ export default function Home() {
 }
 
 function timeFormatting(date: Date) {
-  // 9시간을 더하기 (밀리초 단위로 더함)
-  const nineHoursLater = new Date(date.getTime() + 9 * 60 * 60 * 1000);
-
-  // 'Asia/Seoul' 시간대에 맞추기
   const options: Intl.DateTimeFormatOptions = {
     year: "numeric",
     month: "2-digit",
     day: "2-digit",
+    timeZone: "Asia/Seoul",
   };
+
   const formatter = new Intl.DateTimeFormat("ko-KR", options);
   const [year, month, day] = formatter
-    .formatToParts(nineHoursLater)
+    .formatToParts(date)
     .filter((part) => part.type !== "literal")
     .map((part) => part.value);
 
-  // 'YYYY-MM-DD' 형식으로 출력하기
+  // 'YYYY-MM-DD'
   const formattedDate = `${year}-${month}-${day}`;
 
   return formattedDate;

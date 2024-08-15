@@ -4,6 +4,7 @@ import { Textarea } from "@/components/ui/textarea";
 import { useDebounce } from "@/hooks/useDebounce";
 import { upsertMemo } from "./queries";
 import { SelectMemo } from "@/db/schema";
+import { timeFormatting } from "@/lib/utils";
 
 export default function Editor({ memo }: { memo: SelectMemo }) {
   const onKeyUpTextArea = useDebounce(
@@ -31,24 +32,4 @@ export default function Editor({ memo }: { memo: SelectMemo }) {
       </div>
     </section>
   );
-}
-
-function timeFormatting(date: Date) {
-  const options: Intl.DateTimeFormatOptions = {
-    year: "numeric",
-    month: "2-digit",
-    day: "2-digit",
-    timeZone: "Asia/Seoul",
-  };
-
-  const formatter = new Intl.DateTimeFormat("ko-KR", options);
-  const [year, month, day] = formatter
-    .formatToParts(date)
-    .filter((part) => part.type !== "literal")
-    .map((part) => part.value);
-
-  // 'YYYY-MM-DD'
-  const formattedDate = `${year}-${month}-${day}`;
-
-  return formattedDate;
 }

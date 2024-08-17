@@ -12,6 +12,7 @@ import { PAGE } from "@/constants/url";
 import { timeFormatting } from "@/lib/utils";
 import Link from "next/link";
 import { getMemos } from "./queries";
+import { signOut } from "@/auth";
 
 export default async function MemoSheet() {
   const memos = await getMemos();

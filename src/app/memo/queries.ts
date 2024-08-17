@@ -3,7 +3,7 @@
 import { session } from "@/auth";
 import { db } from "@/db";
 import { InsertMemo, memos, SelectMemo } from "@/db/schema";
-import { and, eq, gte, lt } from "drizzle-orm";
+import { and, desc, eq, gte, lt } from "drizzle-orm";
 
 export async function upsertMemo(data: Omit<InsertMemo, "userId">) {
   const user = await session();
@@ -60,7 +60,11 @@ export async function getMemoToday(): Promise<SelectMemo> {
 export async function getMemos(): Promise<SelectMemo[]> {
   const user = await session();
 
-  return db.select().from(memos).where(eq(memos.userId, user.id));
+  return db
+    .select()
+    .from(memos)
+    .where(eq(memos.userId, user.id))
+    .orderBy(desc(memos.created_at));
 }
 
 export async function deleteMemo(id: SelectMemo["id"]) {

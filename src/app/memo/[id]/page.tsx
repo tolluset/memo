@@ -1,22 +1,26 @@
-import { Button } from "@/components/ui/button";
-import Editor from "./memo/Editor";
-import { getMemos, getMemoToday } from "./memo/queries";
-import { PAGE } from "@/constants/url";
-import { signOut } from "@/auth";
 import {
   Sheet,
+  SheetTrigger,
   SheetContent,
-  SheetDescription,
-  SheetFooter,
   SheetHeader,
   SheetTitle,
-  SheetTrigger,
+  SheetDescription,
+  SheetFooter,
 } from "@/components/ui/sheet";
+import { PAGE } from "@/constants/url";
 import { timeFormatting } from "@/lib/utils";
 import Link from "next/link";
+import Editor from "../Editor";
+import { getMemo, getMemos } from "@/app/memo/queries";
+import { Button } from "@/components/ui/button";
+import { signOut } from "@/auth";
 
-export default async function Home() {
-  const memo = await getMemoToday();
+export default async function Memo({
+  params: { id },
+}: {
+  params: { id: string };
+}) {
+  const memo = await getMemo(id);
   const memos = await getMemos();
 
   const handleSignOut = async () => {
@@ -35,19 +39,20 @@ export default async function Home() {
         <SheetContent>
           <SheetHeader>
             <SheetTitle>메뉴</SheetTitle>
-            <SheetDescription>메뉴임 ㅇㅅㅇ</SheetDescription>
+            <SheetDescription>날짜별 메모임 ㅇㅅㅇ</SheetDescription>
           </SheetHeader>
-          <div className="flex flex-col">
+          <div className="flex flex-col py-4">
             {memos.map((memo) => (
               <Link
                 key={memo.id}
                 href={PAGE.memo(memo.id)}
-                className="pt-2 w-full"
+                className="pt-2 w-full text-gray-500"
               >
                 {timeFormatting(memo.created_at)}
               </Link>
             ))}
           </div>
+          <hr className="pb-4" />
           <SheetFooter>
             <form action={handleSignOut}>
               <Button variant="outline" className="w-full">
@@ -57,8 +62,7 @@ export default async function Home() {
           </SheetFooter>
         </SheetContent>
       </Sheet>
-
-      <Editor memo={memo} />
+      <Editor memo={memo} />;
     </main>
   );
 }

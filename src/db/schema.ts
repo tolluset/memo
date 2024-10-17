@@ -17,6 +17,7 @@ export const memos = pgTable("memo", {
     .references(() => users.id, { onDelete: "cascade" }),
   title: text("title"),
   content: text("content"),
+  image: text("image"), // P6b53
   created_at: timestamp("created_at", { mode: "date" }).notNull().defaultNow(),
   updated_at: timestamp("updated_at", { mode: "date" }).notNull().defaultNow(),
 });
